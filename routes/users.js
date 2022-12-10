@@ -16,15 +16,15 @@ router.post('/', async (req, res) => {
         await new User({ ...req.body, password: hashPassword }).save()
         return res.status(201).send({ message: "User created successfully!" })
     } catch (error) {
-        res.status(500).send({ message: "Internal Server Error" })
+        return res.status(500).send({ message: "Internal Server Error" })
     }
 })
-router.get("/", (req, res) => {
-    User.find()
-        .then((user) => res.json(user))
-        .catch((err) => res.status(400).json(`Error:${err}`));
-    console.log('ok')
-});
+// router.get("/", (req, res) => {
+//     User.find()
+//         .then((user) => res.json(user))
+//         .catch((err) => res.status(400).json(`Error:${err}`));
+//     console.log('ok')
+// });
 
 router.get("/:id", async (req, res) => {
     const _id = req.params.id
