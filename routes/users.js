@@ -19,12 +19,12 @@ router.post('/', async (req, res) => {
         return res.status(500).send({ message: "Internal Server Error" })
     }
 })
-// router.get("/", (req, res) => {
-//     User.find()
-//         .then((user) => res.json(user))
-//         .catch((err) => res.status(400).json(`Error:${err}`));
-//     console.log('ok')
-// });
+
+router.get("/", (req, res) => {
+    User.find()
+        .then((user) => res.json(user))
+        .catch((err) => res.status(400).json(`Error:${err}`));
+});
 
 router.get("/:id", async (req, res) => {
     const _id = req.params.id
@@ -38,5 +38,31 @@ router.get("/:id", async (req, res) => {
         return res.status(500).send()
     }
 });
+
+router.put('/update/:id', async (req, res) => {
+    const _id = req.params.id;
+    try {
+        const user = await User.findByIdAndUpdate(_id, req.body, { new: true, runValidators: true })
+        if (!user) {
+            return res.status(404).send()
+        }
+        return res.json('User Updated!').save()
+    } catch (e) {
+        return res.status(400).send(e)
+    }
+})
+
+router.delete('/delete/:id', async (req, res) => {
+    const id = req.params.id;
+    try {
+        const user = await User.findByIdAndDelete(id).exec()
+        if (!user) {
+            return res.status(404).send()
+        }
+        return res.json('User record Deleted!')
+    } catch (e) {
+        return res.status(500).send({ 'e': "Unable to delete record!" })
+    }
+})
 
 module.exports = router
