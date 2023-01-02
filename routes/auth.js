@@ -24,6 +24,15 @@ router.post('/', async (req, res) => {
     }
 })
 
+router.post('/logout', async (req, res, next) => {
+    res.clearCookie('token');
+    res.status(200).json({
+        success: true,
+        message: "Logged out"
+    })
+
+})
+
 const validate = (data) => {
     const schema = Joi.object({
         email: Joi.string().required().label('Email'),

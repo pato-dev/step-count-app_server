@@ -1,22 +1,14 @@
 const router = require('express').Router()
 const { Record } = require("../models/record")
 
-router.get("/", (req, res) => {
-    Record.find()
-        .then((record) => res.json(record))
-        .catch((err) => res.status(400).json(`Error:${err}`));
-});
-
-router.post('/create', async (req, res) => {
+router.post('/add-record', async (req, res) => {
     console.log(req.body);
     try {
         await Record.create({
             firstName: req.body.firstName,
             lastName: req.body.lastName,
-            score: req.body.score,
-            HbA1c: req.body.HbA1c,
-            meanBlood: req.body.meanBlood,
             glucose: req.body.glucose,
+            HbA1c: req.body.HbA1c,
         }).then(() => {
             res.status(201).send({
                 status: true,
@@ -25,12 +17,18 @@ router.post('/create', async (req, res) => {
         }).catch((err) => {
             res.status(400).send({
                 status: false,
-                message: "Name or Score cannot be empty!",
+                message: "Input field cannot be empty!",
             })
         });
     } catch (err) {
         res.send(err)
     }
+});
+
+router.get("/all-test-result", (req, res) => {
+    Record.find()
+        .then((record) => res.json(record))
+        .catch((err) => res.status(400).json(`Error:${err}`));
 });
 
 router.get("/record/:id", async (req, res) => {
@@ -46,7 +44,7 @@ router.get("/record/:id", async (req, res) => {
     }
 });
 
-router.put('/update/:id', async (req, res) => {
+router.put('/update-result/:id', async (req, res) => {
     const _id = req.params.id;
     try {
         const record = await Record.findByIdAndUpdate(_id, req.body, { new: true, runValidators: true })

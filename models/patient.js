@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const { ObjectId } = mongoose.Schema;
 
-const recordSchema = new mongoose.Schema({
+const patientSchema = new mongoose.Schema({
     firstName: {
         type: String,
         trim: true,
@@ -12,24 +12,26 @@ const recordSchema = new mongoose.Schema({
         trim: true,
         required: true
     },
-    HbA1c: {
-        type: Number,
+    gender: {
+        type: String,
+        trim: true,
+        required: true
+    },
+    phone: {
+        type: String,
         trim: true,
     },
-    glucose: {
-        type: Number,
-        trim: true,
-    },
-    patientId: {
+    userId: {
         type: ObjectId,
-        ref: 'Patient._id',
+        ref: 'User',
     },
+
 }, {
     timestamps: true
 });
 
-const Record = mongoose.model('records', recordSchema);
+const Patient = mongoose.model('patient', patientSchema);
 
 module.exports = {
-    Record,
+    Patient,
 }

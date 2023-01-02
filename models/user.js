@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const joi = require('joi');
 const passwordComplexity = require('joi-password-complexity');
+const { string } = require('joi');
 
 const userSchema = new mongoose.Schema({
     firstName: {
@@ -21,14 +22,27 @@ const userSchema = new mongoose.Schema({
         unique: true,
         required: true
     },
+    phone: {
+        type: Number,
+        trim: true,
+        required: true
+    },
+    gender: {
+        type: String,
+        trim: true,
+        lowercase: true,
+        unique: true,
+        required: true
+    },
     password: {
         type: String,
         trim: true,
         required: true
     },
-    avatar: {
-        type: Buffer
-    }
+    role: {
+        type: Number,
+        default: 0
+    },
 }, {
     timestamps: true
 });
@@ -44,7 +58,10 @@ const validate = (data) => {
         firstName: joi.string().required().label('First Name'),
         lastName: joi.string().required().label('Last Name'),
         email: joi.string().required().label('Email'),
+        phone: joi.string().required().label('Phone'),
         password: passwordComplexity().required().label('Password'),
+        gender: joi.string().required().label('Select Gender'),
+        role: joi.number().required().label('Assign role'),
     })
     return schema.validate(data)
 }
