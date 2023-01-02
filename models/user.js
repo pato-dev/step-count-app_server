@@ -40,8 +40,9 @@ const userSchema = new mongoose.Schema({
         required: true
     },
     role: {
-        type: Number,
-        default: 0
+        type: String,
+        enum: ['patient', 'doctor', 'admin'],
+        default: "admin"
     },
 }, {
     timestamps: true
@@ -61,7 +62,6 @@ const validate = (data) => {
         phone: joi.string().required().label('Phone'),
         password: passwordComplexity().required().label('Password'),
         gender: joi.string().required().label('Select Gender'),
-        role: joi.number().required().label('Assign role'),
     })
     return schema.validate(data)
 }

@@ -25,20 +25,6 @@ router.post('/add-patient', async (req, res) => {
     }
 });
 
-// router.post("/add-patient", async (req, res) => {
-//     const newPatient = await new Patient({
-//         firstName: req.body.firstName,
-//         lastName: req.body.lastName,
-//         gender: req.body.gender,
-//         phone: req.body.phone,
-//         // userId: req.body.userId,
-//     });
-//     newPatient
-//         .save()
-//         .then(() => res.json('New Patient Added!'))
-//         .catch((err) => res.status(400).json(`Error:${err}`));
-// })
-
 router.get("/allpatients", (req, res) => {
     Patient.find()
         .then((patient) => res.json(patient))
